@@ -19,6 +19,7 @@ public class NearestAvailableVehicleResponse {
     private double latitude;
     private double longitude;
     private double distanceInKm;
-    private double averageRating;
+    private double averageVehicleRating;
+    private double averageProviderRating;
 }
 

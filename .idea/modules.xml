@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Fleximove.iml" filepath="$PROJECT_DIR$/.idea/Fleximove.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/instant-mobility-frontend.iml" filepath="$PROJECT_DIR$/.idea/instant-mobility-frontend.iml" />
     </modules>
   </component>
 </project>

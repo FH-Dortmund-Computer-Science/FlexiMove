@@ -4,8 +4,10 @@
     <file url="file://$PROJECT_DIR$/fleximove-backend/booking-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleximove-backend/config-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleximove-backend/eureka-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fleximove-backend/eureka-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleximove-backend/payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleximove-backend/rating-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fleximove-backend/user-context-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleximove-backend/vehicle-service/src/main/java" charset="UTF-8" />
   </component>
 </project>

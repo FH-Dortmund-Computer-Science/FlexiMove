@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: rating-management
+    name: ratingService
   datasource:
     url: jdbc:h2:mem:ratingdb
     driver-class-name: org.h2.Driver

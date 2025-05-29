@@ -1,5 +1,7 @@
 package de.fleximove.vehicle.service.services;
 
+import de.fleximove.vehicle.service.clients.RatingServiceClient;
+import de.fleximove.vehicle.service.clients.UserServiceClient;
 import de.fleximove.vehicle.service.domain.Vehicle;
 import de.fleximove.vehicle.service.domain.valueobject.*;
 import de.fleximove.vehicle.service.dto.EditVehicleRequest;
@@ -23,12 +25,16 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
     private final GeocodingService geocodingService;
+    private final UserServiceClient userServiceClient;
+    private final RatingServiceClient ratingServiceClient;
 
     @Autowired
-    VehicleService(VehicleRepository vehicleRepository, VehicleMapper vehicleMapper, GeocodingService geocodingService){
+    VehicleService(VehicleRepository vehicleRepository, VehicleMapper vehicleMapper, GeocodingService geocodingService, UserServiceClient userServiceClient, RatingServiceClient ratingServiceClient){
         this.vehicleRepository = vehicleRepository;
         this.vehicleMapper = vehicleMapper;
         this.geocodingService = geocodingService;
+        this.userServiceClient = userServiceClient;
+        this.ratingServiceClient = ratingServiceClient;
     }
 
     public void registerNewVehicle(VehicleRequest request, Long providerId) {
@@ -64,14 +70,14 @@ public class VehicleService {
 
         return foundAvailableVehicles.filter(vehicleWithDistance -> vehicleWithDistance.distanceInKm() <= radiusInKm).map(vehicleWithDistance -> {
             Vehicle vehicle = vehicleWithDistance.vehicle();
-            //TODO: get provider name and average rating for current vehicle
-            //Double averageRatingForVehicle = ratingServiceClient.getAverageRatingForVehicle(vehicle.getId());
-            //String providerName = userServiceClient.getProviderName(vehicle.getProviderId());
+            Double averageRatingForVehicle = ratingServiceClient.getAverageRatingForVehicle(vehicle.getId());
+            Double averageRatingForProvider = ratingServiceClient.getAverageRatingForProvider(vehicle.getProviderId());
+            String providerName = userServiceClient.getProviderCompanyName(vehicle.getProviderId());
             String address = geocodingService.reverseGeocode(vehicle.getCurrentLocation());
             return new NearestAvailableVehicleResponse(
                     vehicle.getId(),
                     vehicle.getVehicleModel(),
-                    "Bolt",
+                    providerName,
                     vehicle.getVehicleType().toString(),
                     vehicle.getStatus().toString(),
                     vehicle.getVehiclePrice().getAmount(),
@@ -80,7 +86,8 @@ public class VehicleService {
                     vehicle.getCurrentLocation().getLatitude(),
                     vehicle.getCurrentLocation().getLongitude(),
                     vehicleWithDistance.distanceInKm(),
-                    4.5
+                    averageRatingForVehicle,
+                    averageRatingForProvider
                     );
         }).toList();
     }
