@@ -16,9 +16,8 @@ public class Provider extends User {
         super();
     }
 
-    public Provider(Password password, Email email, LocalDate dateOfBirth,
-            Adress address, Boolean hasDrivingLicense, String phoneNumber, String companyName, PaymentInfo paymentInfo) {
-        super(password, email, dateOfBirth, address, hasDrivingLicense, phoneNumber,paymentInfo);
+    public Provider(Password password, Email email, Adress address, String phoneNumber, String companyName, PaymentInfo paymentInfo) {
+        super(password, email, null, address, null, phoneNumber, paymentInfo);
         this.companyName = companyName;
     }
 

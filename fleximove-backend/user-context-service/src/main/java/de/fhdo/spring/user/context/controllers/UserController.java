@@ -136,7 +136,7 @@ public class UserController {
 	    }
 }
 	
-	@GetMapping("/provider/{id}/company-name")
+	@GetMapping("/provider/{id}/companyName")
     public ResponseEntity<String> getProviderCompanyName(@PathVariable Long id) {
         String companyName = userService.getCompanyNameById(id);
 

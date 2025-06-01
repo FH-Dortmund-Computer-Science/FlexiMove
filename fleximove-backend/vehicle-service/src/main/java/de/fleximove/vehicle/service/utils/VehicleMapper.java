@@ -34,7 +34,6 @@ public class VehicleMapper {
                 new IdentificationNumber(request.getIdentificationNumber()),
                 request.getVehicleName(),
                 type,
-                VehicleStatus.AVAILABLE,
                 currentLocation,
                 new Price(request.getPriceAmount(), billingModel),
                 new VehicleRestrictions(

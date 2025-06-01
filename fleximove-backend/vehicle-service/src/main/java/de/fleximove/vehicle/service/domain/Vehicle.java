@@ -38,13 +38,12 @@ public class Vehicle {
     private Location currentLocation;
 
     //TODO: klaeren mit Team, ob es logisch ist
-    public Vehicle(IdentificationNumber identNumber, String name, VehicleType type, VehicleStatus status, Location currentLocation,
+    public Vehicle(IdentificationNumber identNumber, String vehicleModel, VehicleType type, Location currentLocation,
                    Price price,
                    VehicleRestrictions restrictions, Long providerId) {
         this.identificationNumber = Objects.requireNonNull(identNumber, "identNumber must not be null");
-        this.vehicleModel = Objects.requireNonNull(name, "vehicleName must not be null");
+        this.vehicleModel = Objects.requireNonNull(vehicleModel, "vehicleModel must not be null");
         this.vehicleType = Objects.requireNonNull(type, "vehicleType must not be null");
-        this.status = Objects.requireNonNull(status, "status must not be null");
         this.currentLocation = Objects.requireNonNull(currentLocation, "currentLocation must not be null");
         this.vehiclePrice = Objects.requireNonNull(price, "vehiclePrice must not be null");
         this.restrictions = Objects.requireNonNull(restrictions, "restrictions must not be null");
