@@ -25,6 +25,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void initData() {
+        userRepository.deleteAll();
     	 // Adresse erstellen
         Adress address = new Adress("Musterstraße", "Deutschland", "Berlin", "15", "10115");
 

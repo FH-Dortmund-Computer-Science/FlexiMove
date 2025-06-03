@@ -128,8 +128,9 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
 	    try {
-	        // Deine bestehende Login-Methode mit DTO-Daten aufrufen
+			//TODO: User zurueckgeben, nicht boolean
 	        boolean success = loginService.login(loginRequest.getEmail(), loginRequest.getPassword());
+			//TODO: LoginResponse zuruecksenden
 	        return ResponseEntity.ok("Login erfolgreich!");
 	    } catch (IllegalStateException e) {
 	        return ResponseEntity.status(401).body(e.getMessage());

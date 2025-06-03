@@ -29,12 +29,14 @@ public class VehicleController {
         this.geocodingService = geocodingService;
     }
 
+    //Request kommt aus Frontend
     @PostMapping("/registeredBy")
     public ResponseEntity<Void> registerVehicle(@RequestBody VehicleRequest request, @RequestParam Long providerId) {
         vehicleService.registerNewVehicle(request, providerId);
         return ResponseEntity.ok().build();
     }
 
+    //Request kommt aus Frontend oder aus RatingService oder aus BookingService
     @GetMapping("/load/{id}")
     public ResponseEntity<?> getVehicle(@PathVariable Long id) {
         try {
@@ -47,18 +49,21 @@ public class VehicleController {
         }
     }
 
+    //Request kommt aus Frontend, wird von Provider getriggered
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
         return ResponseEntity.ok().build();
     }
 
+    //Request kommt aus UserService
     @DeleteMapping("/deleteAllVehicles")
     public ResponseEntity<Void> deleteVehiclesByProvider(@RequestParam Long deleteForProviderId) {
         vehicleService.deleteAllVehiclesByProviderId(deleteForProviderId);
         return ResponseEntity.ok().build();
     }
 
+    //Request kommt aus Frontend
     @GetMapping("/nearby")
     public ResponseEntity<List<NearestAvailableVehicleResponse>> getNearbyVehicles(
             @RequestParam String address,
@@ -68,18 +73,21 @@ public class VehicleController {
         return ResponseEntity.ok(vehicles);
     }
 
+    //Request kommt aus Frontend, wird beim Laden von Provider-Profile getriggered
     @GetMapping("/providerVehiclesList")
     public ResponseEntity<List<Vehicle>> listProviderVehicles(@RequestParam Long forProviderId) {
         List<Vehicle> vehicles = vehicleService.listVehiclesByProvider(forProviderId);
         return ResponseEntity.ok(vehicles);
     }
 
+    //Request kommt aus Frontend, wird von Provider getriggered
     @PatchMapping("/edit/{vehicleId}")
     public ResponseEntity<Void> editVehicle(@PathVariable Long vehicleId, @RequestBody EditVehicleRequest request) {
         vehicleService.editVehicleInformation(vehicleId, request);
         return ResponseEntity.ok().build();
     }
 
+    //Request kommt aus Frontend, wird von Provider oder waehrend Booking getriggered
     @PatchMapping("/updateStatus/{vehicleId}")
     public ResponseEntity<Void> updateVehicleStatus(@PathVariable Long vehicleId, @RequestParam VehicleStatus newStatus
     ) {
