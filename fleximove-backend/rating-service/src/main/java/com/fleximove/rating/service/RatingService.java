@@ -1,52 +1,40 @@
 package com.fleximove.rating.service;
 
-import com.fleximove.rating.model.Rating;
-import com.fleximove.rating.repository.RatingRepository;
+import com.fleximove.rating.model.RatingProvider;
+import com.fleximove.rating.model.RatingVehicle;
+import com.fleximove.rating.repository.RatingProviderRepository;
+import com.fleximove.rating.repository.RatingVehicleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class RatingService {
 
-    private final RatingRepository ratingRepository;
+    @Autowired
+    private RatingVehicleRepository vehicleRepository;
 
-    public RatingService(RatingRepository ratingRepository) {
-        this.ratingRepository = ratingRepository;
+    @Autowired
+    private RatingProviderRepository providerRepository;
+
+    public RatingVehicle rateVehicle(RatingVehicle rating) {
+        return vehicleRepository.save(rating);
     }
 
-    public Rating addRating(Rating rating) {
-        rating.setTimestamp(LocalDateTime.now());
-        return ratingRepository.save(rating);
-    }
-
-    public List<Rating> getRatingsByVehicle(UUID vehicleId) {
-        return ratingRepository.findByVehicleId(vehicleId);
-    }
-
-    public List<Rating> getRatingsByProvider(UUID providerId) {
-        return ratingRepository.findByProviderId(providerId);
+    public RatingProvider rateProvider(RatingProvider rating) {
+        return providerRepository.save(rating);
     }
 
     public double getAverageRatingForVehicle(UUID vehicleId) {
-        Double avg = ratingRepository.findAverageScoreByVehicleId(vehicleId).orElse(null);
-        if (avg == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ratings found for this vehicle.");
-        }
-        return avg;
+        return vehicleRepository.findAverageScoreByVehicleId(vehicleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No ratings found for this vehicle."));
     }
-
 
     public double getAverageRatingForProvider(UUID providerId) {
-        Double avg = ratingRepository.findAverageScoreByProviderId(providerId).orElse(null);
-        if (avg == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ratings found for this provider.");
-        }
-        return avg;
+        return providerRepository.findAverageScoreByProviderId(providerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No ratings found for this provider."));
     }
-
 }

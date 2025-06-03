@@ -1,43 +1,38 @@
 package com.fleximove.rating.controller;
 
-import com.fleximove.rating.model.Rating;
+import com.fleximove.rating.model.RatingProvider;
+import com.fleximove.rating.model.RatingVehicle;
 import com.fleximove.rating.service.RatingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/ratings")
 public class RatingController {
-    private final RatingService ratingService;
 
-    public RatingController(RatingService ratingService) {
-        this.ratingService = ratingService;
+    @Autowired
+    private RatingService ratingService;
+
+    @PostMapping("/vehicle")
+    public ResponseEntity<RatingVehicle> rateVehicle(@RequestBody RatingVehicle rating) {
+        return ResponseEntity.ok(ratingService.rateVehicle(rating));
     }
 
-    @PostMapping
-    public Rating addRating(@RequestBody Rating rating) {
-        return ratingService.addRating(rating);
-    }
-
-    @GetMapping("/vehicle/{vehicleId}")
-    public List<Rating> getRatingsByVehicle(@PathVariable UUID vehicleId) {
-        return ratingService.getRatingsByVehicle(vehicleId);
-    }
-
-    @GetMapping("/provider/{providerId}")
-    public List<Rating> getRatingsByProvider(@PathVariable UUID providerId) {
-        return ratingService.getRatingsByProvider(providerId);
+    @PostMapping("/provider")
+    public ResponseEntity<RatingProvider> rateProvider(@RequestBody RatingProvider rating) {
+        return ResponseEntity.ok(ratingService.rateProvider(rating));
     }
 
     @GetMapping("/vehicle/{vehicleId}/average")
-    public double getAverageRatingForVehicle(@PathVariable UUID vehicleId) {
-        return ratingService.getAverageRatingForVehicle(vehicleId);
+    public ResponseEntity<Double> getAverageVehicleRating(@PathVariable UUID vehicleId) {
+        return ResponseEntity.ok(ratingService.getAverageRatingForVehicle(vehicleId));
     }
 
     @GetMapping("/provider/{providerId}/average")
-    public double getAverageRatingForProvider(@PathVariable UUID providerId) {
-        return ratingService.getAverageRatingForProvider(providerId);
+    public ResponseEntity<Double> getAverageProviderRating(@PathVariable UUID providerId) {
+        return ResponseEntity.ok(ratingService.getAverageRatingForProvider(providerId));
     }
 }
