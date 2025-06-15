@@ -1,0 +1,42 @@
+import datatypes from "../TechnologyModels/Java.technology" as Java
+import datatypes from "../TechnologyModels/Spring.technology" as Spring
+import datatypes from "PaymentDomain.data" as PaymentDomain
+
+@technology(Java)
+@technology(Spring)
+functional microservice com.payment.PaymentService {
+
+    @sync(Spring::_protocols.rest)
+    @endpoints(Spring::_protocols.rest: "/api/payments";)
+    interface Payments {
+
+        // Create a new payment
+        @Spring::_aspects.Post
+        create(
+            @Spring::_aspects.RequestBody
+            sync in payment : PaymentDomain::Payment,
+            @Spring::_aspects.ResponseEntity
+            sync out savedPayment : PaymentDomain::Payment
+        );
+
+        // Get payment by ID
+        @endpoints(Spring::_protocols.rest: "/{paymentId}";)
+        @Spring::_aspects.Get
+        get(
+            @Spring::_aspects.PathVariable
+            sync in paymentId : Java::UUID,
+            @Spring::_aspects.ResponseEntity
+            sync out payment : PaymentDomain::Payment
+        );
+
+        // Process payment (from booking)
+        @endpoints(Spring::_protocols.rest: "/process";)
+        @Spring::_aspects.Post
+        processFromBooking(
+            @Spring::_aspects.RequestBody
+            sync in request : PaymentDomain::PaymentRequestDTO,
+            @Spring::_aspects.ResponseEntity
+            sync out response : PaymentDomain::PaymentResponseDTO
+        );
+    }
+}

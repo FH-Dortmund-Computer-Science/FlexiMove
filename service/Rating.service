@@ -1,0 +1,53 @@
+import datatypes from "../TechnologyModels/Java.technology" as Java
+import datatypes from "../TechnologyModels/Spring.technology" as Spring
+import datatypes from "RatingDomain.data" as RatingDomain
+
+@technology(Java)
+@technology(Spring)
+functional microservice com.fleximove.RatingService {
+
+    @sync(Spring::_protocols.rest)
+    @endpoints(Spring::_protocols.rest: "/ratings";)
+    interface Ratings {
+
+        // Vehicle rating erstellen
+        @endpoints(Spring::_protocols.rest: "/vehicle";)
+        @Spring::_aspects.Post
+        rateVehicle(
+            @Spring::_aspects.RequestBody
+            sync in rating : RatingDomain::RatingVehicle,
+            @Spring::_aspects.ResponseEntity
+            sync out rated : RatingDomain::RatingVehicle
+        );
+
+        // Provider rating erstellen
+        @endpoints(Spring::_protocols.rest: "/provider";)
+        @Spring::_aspects.Post
+        rateProvider(
+            @Spring::_aspects.RequestBody
+            sync in rating : RatingDomain::RatingProvider,
+            @Spring::_aspects.ResponseEntity
+            sync out rated : RatingDomain::RatingProvider
+        );
+
+        // Durchschnittliche Fahrzeugbewertung abfragen
+        @endpoints(Spring::_protocols.rest: "/vehicle/{vehicleId}/average";)
+        @Spring::_aspects.Get
+        getAverageVehicleRating(
+            @Spring::_aspects.PathVariable
+            sync in vehicleId : Java::UUID,
+            @Spring::_aspects.ResponseEntity
+            sync out averageRating : double
+        );
+
+        // Durchschnittliche Providerbewertung abfragen
+        @endpoints(Spring::_protocols.rest: "/provider/{providerId}/average";)
+        @Spring::_aspects.Get
+        getAverageProviderRating(
+            @Spring::_aspects.PathVariable
+            sync in providerId : Java::UUID,
+            @Spring::_aspects.ResponseEntity
+            sync out averageRating : double
+        );
+    }
+}
