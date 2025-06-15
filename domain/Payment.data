@@ -1,0 +1,35 @@
+Context Payment {
+    Structure Payment <entity> {
+        PaymentId paymentId <identifier>
+        String bookingId 
+        String userId  
+        Amount amount
+        String currency
+        String description
+        PaymentStatus paymentStatus
+        BillingModel billingModel
+        String timestamp 
+    }
+
+
+    structure PaymentId <valueObject> {
+        String value
+    }
+
+    structure Amount <valueObject> {
+        Double value
+    }
+
+
+    Enumeration PaymentStatus {
+        PENDING,
+        COMPLETED,
+        FAILED
+    }
+
+    Enumeration BillingModel {
+        PER_BOOKING,
+        PER_KM,
+        SUBSCRIPTION
+    }
+}

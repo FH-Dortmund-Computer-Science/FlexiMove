@@ -1,0 +1,49 @@
+Context Booking {
+
+    Structure Booking <entity> {
+        BookingId id <identifier>
+        Long userId
+        String vehicleId 
+        BookingStatus status
+        TimeFrame timeFrame
+        GeoLocation pickupLocation
+        GeoLocation dropoffLocation
+        Double cost
+        Trip trip
+    }
+
+    structure BookingId <valueObject> {
+        String value
+    }
+
+    structure GeoLocation <valueObject> {
+        Double latitude
+        Double longitude
+    }
+
+    structure TimeFrame <valueObject> {
+        String startTime
+        String endTime
+    }
+
+    structure Trip <valueObject> {
+        String id
+        Double distance
+        String status
+
+    Enumeration BookingStatus {
+        CREATED,
+        CONFIRMED,
+        STARTED,
+        COMPLETED,
+        CANCELLED
+    }
+    
+    procedure confirm(),
+        procedure startTrip(GeoLocation startLocation, datetime startTime),
+        procedure endTrip(GeoLocation endLocation, datetime endTime),
+        procedure cancel(),
+
+        function GeoLocation getFinalLocation()
+    }
+}

@@ -1,0 +1,50 @@
+Context User {
+
+    Structure User <entity> {
+        String id <identifier>
+        email : Email
+        password : Password
+        address : Address
+        phoneNumber : String
+        paymentInfo : PaymentInfo
+    }
+
+    // Value Objects
+    structure Email <valueObject> {
+       String value 
+    }
+
+    structure Password <valueObject> {
+        String value
+    }
+
+    structure Address <valueObject> {
+        String street, 
+        String city,
+        String zipCode,
+        String country
+    }
+
+    structure PaymentInfo <valueObject> {
+       String iban,
+       String cardNumber
+    }
+
+
+    Enumeration DriverLicenseType {
+        A, B, C, D, E
+    }
+
+
+
+ Structure Customer extends User {
+        String firstName,
+        String lastName,
+        String dateOfBirth,
+        DriverLicenseTypedriverLicenseType
+    }
+
+ Structure Provider extends User {
+        String companyName
+    }
+}

@@ -1,0 +1,76 @@
+Context vehiclecontext.domain {
+
+
+    Enumeration BillingModel {
+        PER_HOUR,
+        PER_KILOMETER
+    }
+
+    Enumeration DriverLicenseType {
+        MOTORCYCLE,
+        CAR,
+        TRUCK,
+        BUS,
+        NONE
+    }
+
+    Enumeration VehicleStatus {
+        AVAILABLE,
+        BOOKED,
+        IN_USE,
+        MAINTENANCE,
+        RETIRED
+    }
+
+    Enumeration VehicleType {
+        BICYCLE,
+        E_BIKE,
+        E_SCOOTER,
+        SCOOTER,
+        MOTORCYCLE,
+        CAR,
+        TRUCK
+    }
+
+
+    ValueObject IdentificationNumber {
+        identNumber : String
+    }
+
+    ValueObject Location {
+        latitude : Decimal
+        longitude : Decimal
+    }
+
+    ValueObject Price {
+        amount : Decimal
+        billingModel : BillingModel
+    }
+
+    ValueObject VehicleRestrictions {
+        minAge : Integer
+        maxBookingTimeMinutes : Integer
+        maxDistanceKm : Decimal
+        maxPassengers : Integer
+        requiredLicense : DriverLicenseType
+    }
+
+
+
+    Entity Vehicle {
+        id : String
+        identificationNumber : IdentificationNumber
+        providerId : String
+        vehicleModel : String
+        vehicleType : VehicleType
+        status : VehicleStatus
+        restrictions : VehicleRestrictions
+        vehiclePrice : Price
+        currentLocation : Location
+    }
+
+
+    Aggregate VehicleManagement {
+        Entity Vehicle
+    }
+}

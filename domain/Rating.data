@@ -1,0 +1,28 @@
+Context Rating {
+
+    Structure RatingProvider <entity> {
+        RatingId id <identifier>
+        String providerId
+        String userId     
+        Score score
+        String comment
+        String timestamp 
+    }
+
+    Structure RatingVehicle <entity> {
+        RatingId id <identifier>
+        String vehicleId // UUID als String
+        String userId    // UUID als String
+        Score score
+        String comment
+        String timestamp
+    }
+
+    structure RatingId <valueObject> {
+        String value // UUID
+    }
+
+    structure Score <valueObject> {
+        Double value 
+    }
+}
